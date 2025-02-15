@@ -211,6 +211,7 @@ def evaluate_patch_selection():
 
 
 def evaluate_sample():
+    """Evaluates a single sample using all methods (DDS/CDS/PDS/CPDS)"""
 
     device = torch.device(f'cuda:{0}') if torch.cuda.is_available() else torch.device('cpu')
     stable = load_default_model()
@@ -218,15 +219,13 @@ def evaluate_sample():
     stable = stable.to(device)
     generator = torch.Generator(device).manual_seed(0)
 
-    #img_file = 'sample/cat1.png'
-    #save_path = 'results/samples/cat1'
-    img_file = 'sample/candle.jpg'
-    save_path = 'results/samples/candle_lighter'
+    img_file = 'sample/cat1.png'
+    save_path = 'results/samples/cat_pig'
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
 
-    input_prompt = "a candle"
-    target_prompt = "a lighter"
+    input_prompt = "a cat"
+    target_prompt = "a pig"
 
     for config in ["dds", "cds", "pds", "cpds"]:
         result = stable(
@@ -246,6 +245,5 @@ def evaluate_sample():
 
 
 if __name__ == '__main__':
-    #evaluate_models()
-    #evaluate_patch_selection()
-    evaluate_sample()
+    evaluate_models()
+    evaluate_patch_selection()
