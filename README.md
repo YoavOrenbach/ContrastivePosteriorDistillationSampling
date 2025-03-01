@@ -1,2 +1,2 @@
-# ContrastivePosteriorDenoisingScore
-Deep Learning project repository for the Contrastive Posterior Denoising Score implementation
+# ContrastivePosteriorDistillationSampling
+Deep Learning project repository for the Contrastive Posterior Distillation Sampling implementation
