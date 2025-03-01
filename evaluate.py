@@ -151,7 +151,7 @@ def evaluate_patch_selection():
     target_prompt = "a pig"
 
     clip_scores, lpips_scores = [], []
-    random_accuracies, meta_accuracies = [], []
+    random_accuracies, meta_accuracies, knn_accuracies = [], [], []
 
     transform = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
     clip_score_fn = CLIPScore(model_name_or_path="openai/clip-vit-base-patch16")
@@ -160,7 +160,7 @@ def evaluate_patch_selection():
     image = Image.open(img_file)
     input_image_tensor = transform(image).unsqueeze(0)
 
-    for i, patch_selector in enumerate(["random", "meta"]):
+    for i, patch_selector in enumerate(["random", "meta", "knn"]):
         result = stable(
             img_path=img_file,
             prompt=input_prompt,
@@ -193,15 +193,19 @@ def evaluate_patch_selection():
                 random_accuracies = pickle.load(fp)
             elif patch_selector == "meta":
                 meta_accuracies = pickle.load(fp)
+            elif patch_selector == "knn":
+                knn_accuracies = pickle.load(fp)
 
     table = [['Method', 'CLIP Score', 'LPIPS Score'],
              ['Random', clip_scores[0], lpips_scores[0]],
-             ['Meta-Learner', clip_scores[1], lpips_scores[1]]]
+             ['Meta-Learner', clip_scores[1], lpips_scores[1]],
+             ['KNN', clip_scores[2], lpips_scores[2]]]
     print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))
 
     plt.figure(figsize=(10, 6))
     plt.plot(random_accuracies, label='Random selector')
     plt.plot(meta_accuracies, label='Meta-Learner selector')
+    plt.plot(knn_accuracies, label='KNN selector')
     plt.title("Patch selector accuracies")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy %")
