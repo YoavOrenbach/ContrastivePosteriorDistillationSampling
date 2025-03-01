@@ -148,7 +148,7 @@ class CDSPipeline(StableDiffusionPipeline):
                 if config == "cds" or config == "cpds":
                     self._contrasive_loss_step(framework_loss, cut_loss, z_src, z_trg, prompt_embeds, trg_prompt_embeds, sa_attn, w_dds, w_cut, device)
                     # Train patch selector periodically
-                    if i % 20 == 0:
+                    if i % 10 == 0:
                         cut_loss.train_selector()
                 else:
                     self._loss_step(framework_loss, z_src, z_trg, prompt_embeds, trg_prompt_embeds, w_dds)
