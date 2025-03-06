@@ -12,7 +12,7 @@ from utils.loss import *
 
 logger = logging.get_logger(__name__)
 
-class CDSPipeline(StableDiffusionPipeline):
+class CPDSPipeline(StableDiffusionPipeline):
 
     def prepare_latents(self, batch_size, num_channels_latents, height, width, dtype, device, generator, latents=None, img_path=''):
         shape = (batch_size, num_channels_latents, height // self.vae_scale_factor, width // self.vae_scale_factor)
